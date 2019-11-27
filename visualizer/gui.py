@@ -4,6 +4,7 @@ gui.py
 import tkinter as tk
 from tkinter import ttk
 import random
+import sys
 
 import algorithms
 
@@ -47,7 +48,7 @@ class SortVisualizer:
         self.option_drop_down.grid(row=0, column=1, sticky='w')
 
     def draw_size_scale(self):
-        self.size_scale = ttk.Scale(self.master, from_=5, to=50, value=5,
+        self.size_scale = ttk.Scale(self.master, from_=5, to=24, value=24,
         orient='horizontal', command=self.size_scale_value, length=100)
 
         self.size_scale.grid(row=2, column=1, sticky='sw')
@@ -55,7 +56,7 @@ class SortVisualizer:
         self.size_label.grid(row=2, column=0, sticky='e')
 
     def draw_speed_scale(self):
-        self.speed_scale = ttk.Scale(self.master, from_=5, to=1000, value=5,
+        self.speed_scale = ttk.Scale(self.master, from_=1, to=41, value=21,
         orient='horizontal', command=self.speed_scale_value, length=100)
 
         self.speed_scale.grid(row=2, column=3, sticky='sw')
@@ -63,7 +64,7 @@ class SortVisualizer:
         self.speed_label.grid(row=2, column=2, sticky='e')
 
     def draw_canvas(self):
-        self.canvas = tk.Canvas(self.master, width=520, height=400)
+        self.canvas = tk.Canvas(self.master, width=600, height=400)
         self.canvas.grid(row=1, column=0,columnspan=50)
 
     '''COMMANDS'''
@@ -91,38 +92,38 @@ class SortVisualizer:
 
 
     def start_sort(self):
-        #get speed
-        speed = None
-        #get algorithm used
+        speed = int(self.get_speed())
         algo = self.get_sort_algo()
-        self.sort_handler(algo)
-        #sort
-        print('Starting Sort')
-        pass
+        if algo != None and len(self.line_array) != 0:
+            print("Starting Sort")
+            self.run = True
+            self.sort_handler(algo,speed)
+
 
     def sort_handler(self, algo=None, speed=500):
-        if algo != None:
-            generator = algo(self.line_array)
-
-        else:
-            print('Chose an Algorithm')
-
-        while True:
+        generator = algo(self.line_array)
+        while self.run:
             try:
                 info = next(generator)
                 if info[0] == 0:
                     self.selected_line_colors(line1=info[1], line2=info[2],
                         line_color='green')
-                elif info[1] == 1:
+                elif info[0] == 1:
                     self.selected_line_colors(line1=info[1], line2=info[2],
                         line_color='red')
                 elif info[0] == 2:
                     self.update_canvas(line1=info[1], line2=info[2])
+                self.master.after(speed)
             except:
                 self.run = False
+                e = sys.exc_info()
+                print(e)
+                print('Breaking')
+
                 break
-            self.canvas.delete('all')
-            self.draw_all_lines('purple')
+        self.canvas.delete('all')
+        self.draw_all_lines(color1='purple')
+
 
     def size_scale_value(self, e=None):
         value = self.size_scale.get()
@@ -134,6 +135,12 @@ class SortVisualizer:
         value = self.speed_scale.get()
         if int(value) != value:
             self.speed_scale.set(round(value))
+
+    def get_speed(self):
+        n = self.get_array_size()
+        s = self.speed_scale.get()
+        speed = (1000 - (n * s))
+        return int(speed)
 
     def set_sort_algo(self, value):
         self.current_algorithm = value
@@ -151,21 +158,18 @@ class SortVisualizer:
             color = color1
             if line[0] == line1 or line[0] == line2:
                 color = color2
-
             xcoord = line[0] * 25 + 10
             ycoord = 0
             length = line[1]
             self.canvas.create_line(xcoord, ycoord, xcoord, length, width=20,
             tag=str(line[0]), fill=color)
 
-    def selected_line_colors(self, line1, line2, line_color,speed=500):
+    def selected_line_colors(self, line1, line2, line_color):
         self.canvas.delete('all')
-        self.draw_all_lines(line1, line2, color1 = 'line_color')
+        self.draw_all_lines(line1, line2, color2 = line_color)
         self.master.update_idletasks()
-        self.master.after(speed)
 
-    def update_canvas(self, line1, line2, speed=500):
+    def update_canvas(self, line1, line2):
         self.canvas.delete('all')
         self.draw_all_lines(line1, line2)
         self.master.update_idletasks()
-        self.master.after(speed)
