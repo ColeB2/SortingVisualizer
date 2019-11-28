@@ -3,21 +3,21 @@ algorithms.py
 '''
 '''Bubble Sort'''
 def bubble_sort(array):
-        n = len(array)
+    n = len(array)
+    for pass_num in range(n-1, 0, -1):
+        for j in range(pass_num):
+            yield 0, j, j+1, array
+            if array[j] > array[j+1]:
+                yield 1, j, j+1, array
+                array[j], array[j+1] = array[j+1], array[j]
+                yield 2, j, j+1, array
 
-        for i in range(n):
-            for j in range(0, n-i-1):
-                yield 0, j, j+1, array
-                if array[j] > array[j+1]:
-                    yield 1, j, j+1, array
-                    array[j], array[j+1] = array[j+1], array[j]
-                    yield 2, j, j+1, array
 
 '''Heap Sort'''
 def heap_sort(array):
     n = len(array)
     '''BUILDINGMAXHEAP FUNCTION'''
-    print('Building max Heap')
+    #print('Building max Heap')
     #buildMaxHeap(array, n)
     for i in range(n):
         #yield 2, None, None, array
@@ -33,7 +33,7 @@ def heap_sort(array):
                 yield 1, int((j-1)/2), j, array
                 j = int((j - 1) / 2)
                 yield 2, None, None, array
-    print('Max Heap Complete')
+    #print('Max Heap Complete')
     '''HEAP SORT'''
     yield 2, None, None, array
     for i in range(n - 1, 0, -1):
@@ -107,6 +107,56 @@ def merge_sort(array, l, r):
         merge_sort(arr, m+1, r)
         merge(arr, l, m, r)
 
+
+# Python program for implementation of MergeSort
+def mergeSort(arr):
+	if len(arr) >1:
+		mid = len(arr)//2 #Finding the mid of the array
+		L = arr[:mid] # Dividing the array elements
+		R = arr[mid:] # into 2 halves
+
+		mergeSort(L) # Sorting the first half
+		mergeSort(R) # Sorting the second half
+
+		i = j = k = 0
+
+		# Copy data to temp arrays L[] and R[]
+		while i < len(L) and j < len(R):
+			if L[i] < R[j]:
+				arr[k] = L[i]
+				i+=1
+			else:
+				arr[k] = R[j]
+				j+=1
+			k+=1
+
+		# Checking if any element was left
+		while i < len(L):
+			arr[k] = L[i]
+			i+=1
+			k+=1
+
+		while j < len(R):
+			arr[k] = R[j]
+			j+=1
+			k+=1
+
+# Code to print the list
+def printList(arr):
+	for i in range(len(arr)):
+		print(arr[i],end=" ")
+	print()
+
+# driver code to test the above code
+if __name__ == '__main__':
+	arr = [12, 11, 13, 5, 6, 7]
+	print ("Given array is", end="\n")
+	printList(arr)
+	mergeSort(arr)
+	print("Sorted array is: ", end="\n")
+	printList(arr)
+
+# This code is contributed by Mayank Khanna
 
 
 '''Quick Sort'''
