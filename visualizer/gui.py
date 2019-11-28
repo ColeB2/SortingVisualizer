@@ -48,7 +48,7 @@ class SortVisualizer:
         self.option_drop_down.grid(row=0, column=1, sticky='w')
 
     def draw_size_scale(self):
-        self.size_scale = ttk.Scale(self.master, from_=5, to=24, value=24,
+        self.size_scale = ttk.Scale(self.master, from_=5, to=24, value=8,
         orient='horizontal', command=self.size_scale_value, length=100)
 
         self.size_scale.grid(row=2, column=1, sticky='sw')
@@ -56,7 +56,7 @@ class SortVisualizer:
         self.size_label.grid(row=2, column=0, sticky='e')
 
     def draw_speed_scale(self):
-        self.speed_scale = ttk.Scale(self.master, from_=1, to=41, value=21,
+        self.speed_scale = ttk.Scale(self.master, from_=1, to=500, value=1,
         orient='horizontal', command=self.speed_scale_value, length=100)
 
         self.speed_scale.grid(row=2, column=3, sticky='sw')
@@ -105,13 +105,13 @@ class SortVisualizer:
         while self.run:
             try:
                 info = next(generator)
-                if info[0] == 0:
+                if info[0] == 0: # selecting lines
                     self.selected_line_colors(line1=info[1], line2=info[2],
                         line_color='green')
-                elif info[0] == 1:
+                elif info[0] == 1: #sqapping lines
                     self.selected_line_colors(line1=info[1], line2=info[2],
                         line_color='red')
-                elif info[0] == 2:
+                elif info[0] == 2: #post swap, all blue
                     self.update_canvas(line1=info[1], line2=info[2])
                 self.master.after(speed)
             except:
@@ -121,6 +121,7 @@ class SortVisualizer:
                 print('Breaking')
 
                 break
+        print(self.line_array)
         self.canvas.delete('all')
         self.draw_all_lines(color1='purple')
 
@@ -140,6 +141,7 @@ class SortVisualizer:
         n = self.get_array_size()
         s = self.speed_scale.get()
         speed = (1000 - (n * s))
+        speed = 1000 - self.speed_scale.get()
         return int(speed)
 
     def set_sort_algo(self, value):
@@ -149,6 +151,8 @@ class SortVisualizer:
     def get_sort_algo(self):
         if self.current_algorithm == 'Bubble Sort':
             return algorithms.bubble_sort
+        elif self.current_algorithm == 'Heap Sort':
+            return algorithms.heap_sort
         else:
             pass
     '''Canvas Draw Methods'''
