@@ -131,3 +131,7 @@ dmypy.json
 
 # Python Folders
 /prototype
+
+# Python Files
+myalgos.py
+myalgosTest.py
