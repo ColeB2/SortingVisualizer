@@ -12,6 +12,42 @@ def bubble_sort(array):
                 array[j], array[j+1] = array[j+1], array[j]
                 yield 2, j, j+1, array
 
+def fast_bubble_sort(array):
+    n = len(array)
+    for pass_num in range(n-1, 0, -1):
+        swap = False
+        for j in range(pass_num):
+            yield 0, j, j+1, array
+            if array[j] > array[j+1]:
+                swap = True
+                yield 1, j, j+1, array
+                array[j], array[j+1] = array[j+1], array[j]
+                yield 2, j, j+1, array
+
+        if swap == False:
+            print('Done')
+            raise StopIteration()
+
+'''Selection Sort'''
+def selection_sort(array):
+    n = len(array)
+    for fill_slot in range(n-1, 0, -1):
+        position_max = 0
+        yield 0, position_max, None, array
+        for location in range(1, fill_slot + 1):
+            yield 0, position_max, location, array
+            if array[location] > array[position_max]:
+                position_max = location
+                yield 0, position_max, None, array
+
+        yield 0, fill_slot, position_max, array
+        (array[fill_slot],
+        array[position_max]) = (array[position_max],
+        array[fill_slot])
+        yield 1, fill_slot, position_max, array
+        yield 2, None, None, array
+
+
 
 '''Heap Sort'''
 def heap_sort(array):

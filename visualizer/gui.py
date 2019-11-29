@@ -39,7 +39,8 @@ class SortVisualizer:
 
     def draw_drop_down(self):
         self.sort_algos = ['Select Algorithm',
-        'Bubble Sort', 'Merge Sort', 'Quick Sort', 'Heap Sort']
+        'Bubble Sort', 'Fast Bubble Sort', 'Selection Sort', 'Merge Sort',
+        'Quick Sort', 'Heap Sort']
         self.option_variable = tk.StringVar()
         self.option_drop_down = ttk.OptionMenu(
             self.master, self.option_variable, *self.sort_algos,
@@ -56,7 +57,7 @@ class SortVisualizer:
         self.size_label.grid(row=2, column=0, sticky='e')
 
     def draw_speed_scale(self):
-        self.speed_scale = ttk.Scale(self.master, from_=1, to=500, value=1,
+        self.speed_scale = ttk.Scale(self.master, from_=1, to=900, value=900,
         orient='horizontal', command=self.speed_scale_value, length=100)
 
         self.speed_scale.grid(row=2, column=3, sticky='sw')
@@ -151,6 +152,10 @@ class SortVisualizer:
     def get_sort_algo(self):
         if self.current_algorithm == 'Bubble Sort':
             return algorithms.bubble_sort
+        elif self.current_algorithm == 'Fast Bubble Sort':
+            return algorithms.fast_bubble_sort
+        elif self.current_algorithm == 'Selection Sort':
+            return algorithms.selection_sort
         elif self.current_algorithm == 'Heap Sort':
             return algorithms.heap_sort
         else:
