@@ -24,10 +24,10 @@ def fast_bubble_sort(array):
                 array[j], array[j+1] = array[j+1], array[j]
                 yield 2, j, j+1, array
 
+
         if swap == False:
             print('Done')
             raise StopIteration()
-
 '''Selection Sort'''
 def selection_sort(array):
     n = len(array)
@@ -46,6 +46,31 @@ def selection_sort(array):
         array[fill_slot])
         yield 1, fill_slot, position_max, array
         yield 2, None, None, array
+'''Insertion Sort'''
+def insertion_sort(array):
+    n = len(array)
+    yield 'insertion', None, None, 0, array
+    for i in range(1, n, 1):
+        item = array[i]
+        j = i - 1
+        #yield 0, None, i, array
+        yield 'insertion', None, None, i, array
+
+        while j >= 0 and item < array[j]:
+            #yield 1, j+1, j, array
+            yield 'insertion', j+1, j, i, array
+            array[j+1], array[j] = array[j], array[j+1]
+            '''swap j+1, j for visualization purposes'''
+            yield 'insertion', j+1, j, i, array
+            #yield 1, j+1, j, array
+
+            j-=1
+        #yield 0, j+1, i, array
+        array[j+1] = item
+        #yield 1, j+1, i, array
+
+        yield 2, None, None, array
+
 
 
 
@@ -60,7 +85,6 @@ def heap_sort(array):
         '''if arr[i](child) > arr[x]parent:'''
         if array[i] > array[int((i - 1) / 2)]:
             j = i
-
             while array[j] > array[int((j - 1) / 2)]:
                 yield 0, j, int((j-1)/2), array
                 (array[j],
@@ -94,9 +118,6 @@ def heap_sort(array):
             j = index
             if index >= i:
                 break
-
-
-
 
 '''Merge Sort'''
 def merge(arr, l, m, r):

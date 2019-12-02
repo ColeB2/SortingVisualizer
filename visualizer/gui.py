@@ -8,6 +8,12 @@ import sys
 
 import algorithms
 
+'''
+Todo: Adjust drawing to handle coloring of mutiple uknown amontu of lines
+--: Work on insertion sort, move all ines up, than insert line?
+--: 
+'''
+
 class SortVisualizer:
     def __init__(self, master):
         self.master = master
@@ -39,8 +45,8 @@ class SortVisualizer:
 
     def draw_drop_down(self):
         self.sort_algos = ['Select Algorithm',
-        'Bubble Sort', 'Fast Bubble Sort', 'Selection Sort', 'Merge Sort',
-        'Quick Sort', 'Heap Sort']
+        'Bubble Sort', 'Fast Bubble Sort', 'Selection Sort', 'Insertion Sort',
+        'Merge Sort', 'Quick Sort', 'Heap Sort']
         self.option_variable = tk.StringVar()
         self.option_drop_down = ttk.OptionMenu(
             self.master, self.option_variable, *self.sort_algos,
@@ -57,7 +63,7 @@ class SortVisualizer:
         self.size_label.grid(row=2, column=0, sticky='e')
 
     def draw_speed_scale(self):
-        self.speed_scale = ttk.Scale(self.master, from_=1, to=900, value=900,
+        self.speed_scale = ttk.Scale(self.master, from_=500, to=950, value=950,
         orient='horizontal', command=self.speed_scale_value, length=100)
 
         self.speed_scale.grid(row=2, column=3, sticky='sw')
@@ -104,8 +110,7 @@ class SortVisualizer:
     def sort_handler(self, algo=None, speed=500):
         generator = algo(self.line_array)
         while self.run:
-            try:
-                info = next(generator)
+            for info in generator:
                 if info[0] == 0: # selecting lines
                     self.selected_line_colors(line1=info[1], line2=info[2],
                         line_color='green')
@@ -114,14 +119,16 @@ class SortVisualizer:
                         line_color='red')
                 elif info[0] == 2: #post swap, all blue
                     self.update_canvas(line1=info[1], line2=info[2])
-                self.master.after(speed)
-            except:
-                self.run = False
-                e = sys.exc_info()
-                print(e)
-                print('Breaking')
+                elif info[0] == 'insertion': #color line to be inserted
+                    self.selected_line_colors(line1=info[1], line2=info[2],
+                        line3=info[3], line_color = 'green')
 
-                break
+                self.master.after(speed)
+            self.run = False
+            e = sys.exc_info()
+            print(e)
+            print('Breaking')
+
         print(self.line_array)
         self.canvas.delete('all')
         self.draw_all_lines(color1='purple')
@@ -156,26 +163,38 @@ class SortVisualizer:
             return algorithms.fast_bubble_sort
         elif self.current_algorithm == 'Selection Sort':
             return algorithms.selection_sort
+        elif self.current_algorithm == 'Insertion Sort':
+            return algorithms.insertion_sort
         elif self.current_algorithm == 'Heap Sort':
             return algorithms.heap_sort
         else:
             pass
     '''Canvas Draw Methods'''
-    def draw_all_lines(self, line1=None, line2=None, color1='blue',
+    def draw_all_lines(self, line1=None, line2=None, line3=None, color1='blue',
         color2='red'):
         for line in enumerate(self.line_array):
             color = color1
             if line[0] == line1 or line[0] == line2:
                 color = color2
+            elif line[0] == line3:
+                color = 'green'
             xcoord = line[0] * 25 + 10
             ycoord = 0
             length = line[1]
             self.canvas.create_line(xcoord, ycoord, xcoord, length, width=20,
             tag=str(line[0]), fill=color)
 
-    def selected_line_colors(self, line1, line2, line_color):
+    def draw_all_lines2(self, *lines):
+        pass
+
+
+    def selected_line_colors(self, line1, line2, line_color, line3 = None):
         self.canvas.delete('all')
-        self.draw_all_lines(line1, line2, color2 = line_color)
+        #self.canvas.delete('line1')
+        #self.canvas.delete('line2')
+        self.draw_all_lines(line1, line2, color2 = line_color, line3=line3)
+        self.canvas.delete(line1)
+
         self.master.update_idletasks()
 
     def update_canvas(self, line1, line2):
