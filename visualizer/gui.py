@@ -11,7 +11,7 @@ import algorithms
 '''
 Todo:
 --: - insertion prototype done, could use better visualization drawing
---: - work on shell sort, 
+--: - work on shell sort,
 '''
 
 class SortVisualizer:
@@ -119,18 +119,12 @@ class SortVisualizer:
                         line_color='red')
                 elif info[0] == 2: #post swap, all blue
                     self.update_canvas(line1=info[1], line2=info[2])
-                elif info[0] == 3: #3 lines, 3rd line stay colored
+                elif info[0] == 3: #3 lines, 3rd line stay colored 'green'
                     self.selected_line_colors(line1=info[1], line2=info[2],
                     line3=info[3], line_color='green')
-                elif info[0] == 4: #4 lines, 3rd line stay colored
+                elif info[0] == 4: #3 lines, 3rd line stay colored 'green'
                     self.selected_line_colors(line1=info[1], line2=info[2],
                      line3=info[3], line_color='red')
-                elif info[0] == 5: #3 lines, 3rd line stay colored
-                    self.selected_line_colors(line1=info[1], line2=info[2],
-                     line3=info[3], line_color='blue')
-
-
-
 
                 self.master.after(speed)
             self.run = False
@@ -176,6 +170,8 @@ class SortVisualizer:
             return algorithms.insertion_sort
         elif self.current_algorithm == 'Shell Sort':
             return algorithms.shell_sort
+        elif self.current_algorithm == 'Merge Sort':
+            return algorithms.merge_sort
         elif self.current_algorithm == 'Heap Sort':
             return algorithms.heap_sort
         else:
