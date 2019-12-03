@@ -48,28 +48,47 @@ def selection_sort(array):
         yield 2, None, None, array
 '''Insertion Sort'''
 def insertion_sort(array):
+    print('INSERT SORT 1')
     n = len(array)
-    yield 'insertion', None, None, 0, array
+    yield 4, None, None, 0, array
     for i in range(1, n, 1):
         item = array[i]
         j = i - 1
-        #yield 0, None, i, array
-        yield 'insertion', None, None, i, array
-
+        yield 3, None, None, i, array
         while j >= 0 and item < array[j]:
-            #yield 1, j+1, j, array
-            yield 'insertion', j+1, j, i, array
+            yield 4, j+1, j, i, array
             array[j+1], array[j] = array[j], array[j+1]
             '''swap j+1, j for visualization purposes'''
-            yield 'insertion', j+1, j, i, array
-            #yield 1, j+1, j, array
+            yield 4, j+1, j, i, array
 
             j-=1
         #yield 0, j+1, i, array
         array[j+1] = item
         #yield 1, j+1, i, array
 
+        yield 5, None, None, array
+'''Shell Sort'''
+def shell_sort(array):
+    n = len(array)
+
+    gap = n // 2
+
+    while gap > 0:
         yield 2, None, None, array
+        for i in range(gap, n):
+            temp = array[i]
+
+            j = i
+            while j >= gap and array[j-gap] > temp:
+                yield 0, j, j-gap, array
+                array[j] = array[j-gap]
+                yield 1, j, j-gap, array
+                j-= gap
+
+            array[j] = temp
+            yield 2, i, None, array
+
+        gap //= 2
 
 
 
@@ -78,8 +97,6 @@ def insertion_sort(array):
 def heap_sort(array):
     n = len(array)
     '''BUILDINGMAXHEAP FUNCTION'''
-    #print('Building max Heap')
-    #buildMaxHeap(array, n)
     for i in range(n):
         #yield 2, None, None, array
         '''if arr[i](child) > arr[x]parent:'''
@@ -93,7 +110,7 @@ def heap_sort(array):
                 yield 1, int((j-1)/2), j, array
                 j = int((j - 1) / 2)
                 yield 2, None, None, array
-    #print('Max Heap Complete')
+
     '''HEAP SORT'''
     yield 2, None, None, array
     for i in range(n - 1, 0, -1):

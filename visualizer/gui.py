@@ -9,9 +9,9 @@ import sys
 import algorithms
 
 '''
-Todo: Adjust drawing to handle coloring of mutiple uknown amontu of lines
---: Work on insertion sort, move all ines up, than insert line?
---: 
+Todo:
+--: - insertion prototype done, could use better visualization drawing
+--: - work on shell sort, 
 '''
 
 class SortVisualizer:
@@ -46,7 +46,7 @@ class SortVisualizer:
     def draw_drop_down(self):
         self.sort_algos = ['Select Algorithm',
         'Bubble Sort', 'Fast Bubble Sort', 'Selection Sort', 'Insertion Sort',
-        'Merge Sort', 'Quick Sort', 'Heap Sort']
+        'Shell Sort', 'Merge Sort', 'Quick Sort', 'Heap Sort']
         self.option_variable = tk.StringVar()
         self.option_drop_down = ttk.OptionMenu(
             self.master, self.option_variable, *self.sort_algos,
@@ -55,7 +55,7 @@ class SortVisualizer:
         self.option_drop_down.grid(row=0, column=1, sticky='w')
 
     def draw_size_scale(self):
-        self.size_scale = ttk.Scale(self.master, from_=5, to=24, value=8,
+        self.size_scale = ttk.Scale(self.master, from_=5, to=22, value=8,
         orient='horizontal', command=self.size_scale_value, length=100)
 
         self.size_scale.grid(row=2, column=1, sticky='sw')
@@ -63,7 +63,7 @@ class SortVisualizer:
         self.size_label.grid(row=2, column=0, sticky='e')
 
     def draw_speed_scale(self):
-        self.speed_scale = ttk.Scale(self.master, from_=500, to=950, value=950,
+        self.speed_scale = ttk.Scale(self.master, from_=500, to=999, value=900,
         orient='horizontal', command=self.speed_scale_value, length=100)
 
         self.speed_scale.grid(row=2, column=3, sticky='sw')
@@ -111,17 +111,26 @@ class SortVisualizer:
         generator = algo(self.line_array)
         while self.run:
             for info in generator:
-                if info[0] == 0: # selecting lines
+                if info[0] == 0: # selecting lines --comparison
                     self.selected_line_colors(line1=info[1], line2=info[2],
                         line_color='green')
-                elif info[0] == 1: #sqapping lines
+                elif info[0] == 1: #sqapping lines --swap lines
                     self.selected_line_colors(line1=info[1], line2=info[2],
                         line_color='red')
                 elif info[0] == 2: #post swap, all blue
                     self.update_canvas(line1=info[1], line2=info[2])
-                elif info[0] == 'insertion': #color line to be inserted
+                elif info[0] == 3: #3 lines, 3rd line stay colored
                     self.selected_line_colors(line1=info[1], line2=info[2],
-                        line3=info[3], line_color = 'green')
+                    line3=info[3], line_color='green')
+                elif info[0] == 4: #4 lines, 3rd line stay colored
+                    self.selected_line_colors(line1=info[1], line2=info[2],
+                     line3=info[3], line_color='red')
+                elif info[0] == 5: #3 lines, 3rd line stay colored
+                    self.selected_line_colors(line1=info[1], line2=info[2],
+                     line3=info[3], line_color='blue')
+
+
+
 
                 self.master.after(speed)
             self.run = False
@@ -165,6 +174,8 @@ class SortVisualizer:
             return algorithms.selection_sort
         elif self.current_algorithm == 'Insertion Sort':
             return algorithms.insertion_sort
+        elif self.current_algorithm == 'Shell Sort':
+            return algorithms.shell_sort
         elif self.current_algorithm == 'Heap Sort':
             return algorithms.heap_sort
         else:
@@ -176,6 +187,7 @@ class SortVisualizer:
             color = color1
             if line[0] == line1 or line[0] == line2:
                 color = color2
+                xcoord = line[0] * 25 + 10
             elif line[0] == line3:
                 color = 'green'
             xcoord = line[0] * 25 + 10
@@ -184,20 +196,12 @@ class SortVisualizer:
             self.canvas.create_line(xcoord, ycoord, xcoord, length, width=20,
             tag=str(line[0]), fill=color)
 
-    def draw_all_lines2(self, *lines):
-        pass
-
-
     def selected_line_colors(self, line1, line2, line_color, line3 = None):
         self.canvas.delete('all')
-        #self.canvas.delete('line1')
-        #self.canvas.delete('line2')
         self.draw_all_lines(line1, line2, color2 = line_color, line3=line3)
-        self.canvas.delete(line1)
-
         self.master.update_idletasks()
 
-    def update_canvas(self, line1, line2):
+    def update_canvas(self, line1, line2, color='blue'):
         self.canvas.delete('all')
-        self.draw_all_lines(line1, line2)
+        self.draw_all_lines(line1, line2, color1=color)
         self.master.update_idletasks()
