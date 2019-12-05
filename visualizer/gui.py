@@ -55,7 +55,7 @@ class SortVisualizer:
         self.option_drop_down.grid(row=0, column=1, sticky='w')
 
     def draw_size_scale(self):
-        self.size_scale = ttk.Scale(self.master, from_=5, to=22, value=8,
+        self.size_scale = ttk.Scale(self.master, from_=5, to=100, value=8,
         orient='horizontal', command=self.size_scale_value, length=100)
 
         self.size_scale.grid(row=2, column=1, sticky='sw')
@@ -125,6 +125,14 @@ class SortVisualizer:
                 elif info[0] == 4: #3 lines, 3rd line stay colored 'green'
                     self.selected_line_colors(line1=info[1], line2=info[2],
                      line3=info[3], line_color='red')
+                     '''Used for quick sort'''
+                elif info[0] == 5: #3 lines, 3rd line stay colored 'green'
+                    self.selected_line_colors(line1=info[1], line2=info[2],
+                    line4=info[3], line_color='green')
+                elif info[0] == 6: #3 lines, 3rd line stay colored 'green'
+                    self.selected_line_colors(line1=info[1], line2=info[2],
+                     line4=info[3], line_color='red')
+
 
                 self.master.after(speed)
             self.run = False
@@ -174,23 +182,33 @@ class SortVisualizer:
             return algorithms.merge_sort
         elif self.current_algorithm == 'Heap Sort':
             return algorithms.heap_sort
+        elif self.current_algorithm == 'Quick Sort':
+            return algorithms.quick_sort
         else:
             pass
     '''Canvas Draw Methods'''
-    def draw_all_lines(self, line1=None, line2=None, line3=None, color1='blue',
-        color2='red'):
+    def draw_all_lines(self, line1=None, line2=None, line3=None, line4=None,
+        color1='blue',color2='red'):
+        padding = 5
+        line_width = int((600 / self.get_array_size()) - padding)
+        spacing = line_width/2
+        scale = line_width + padding
         for line in enumerate(self.line_array):
             color = color1
             if line[0] == line1 or line[0] == line2:
                 color = color2
-                xcoord = line[0] * 25 + 10
+                xcoord = line[0] * scale + spacing
             elif line[0] == line3:
-                color = 'green'
-            xcoord = line[0] * 25 + 10
+                color = 'yellow'
+            elif line[0] == line4:
+                color = 'red'
+
+
+            xcoord = line[0] * scale + spacing
             ycoord = 0
             length = line[1]
-            self.canvas.create_line(xcoord, ycoord, xcoord, length, width=20,
-            tag=str(line[0]), fill=color)
+            self.canvas.create_line(xcoord, ycoord, xcoord, length,
+            width=line_width, tag=str(line[0]), fill=color)
 
     def selected_line_colors(self, line1, line2, line_color, line3 = None):
         self.canvas.delete('all')

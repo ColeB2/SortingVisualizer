@@ -1,5 +1,6 @@
 '''
 algorithms.py
+algorithm information and help received from website: geeksforgeeks.org
 '''
 '''Bubble Sort'''
 def bubble_sort(array):
@@ -156,13 +157,17 @@ def merge_sort(array, l=0, u=None):
     if  u - l > 1:
         m = l + (u - l) // 2
         w = l + u - m
+
         yield from wsort(array, l, m, w)
+
         while w - l > 2:
             n = w
             w = l + (n - l + 1) // 2
+
             yield from wsort(array, w, n, l)
             yield from wmerge(array, l, l + n - w, n, u, w)
         n = w
+
         while n > l: # fallback to insert sort
             for m in range(n, u):
                 if array[m-1] > array[m]:
@@ -221,3 +226,29 @@ def wsort(array, l, u, w):
             w +=1
 
 '''Quick Sort'''
+def quick_sort(array):
+    n = len(array)
+    yield from quick_sort_helper(array, 0, n-1)
+
+def quick_sort_helper(array, low, high):
+    if low < high:
+        '''PARTITION FUNCTION START'''
+        i = (low-1) #smaller element index
+        pivot = array[high] #pivot value
+        yield 3, None, None, pivot, array
+        for j in range(low,high):
+            if array[j] < pivot:
+                i += 1
+                yield 3, i, j, pivot, array
+                array[i], array[j] = array[j], array[i]
+                yield 3, i, j, pivot, array
+
+        yield 3, i+1, high, pivot, array
+        array[i+1], array[high] = array[high], array[i+1]
+        yield 4, i+1, high, pivot, array
+
+        pivot_index = i+1
+        yield 3, None, None, pivot_index, array
+        '''PARTITION FUNCTION END'''
+        yield from quick_sort_helper(array, low, pivot_index-1)
+        yield from quick_sort_helper(array, pivot_index+1, high)
