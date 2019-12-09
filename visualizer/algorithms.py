@@ -225,7 +225,7 @@ def wsort(array, l, u, w):
             l +=1
             w +=1
 
-'''Quick Sort'''
+'''Quick Sort - Lomuto-Partition'''
 def quick_sort(array):
     n = len(array)
     yield from quick_sort_helper(array, 0, n-1)
@@ -235,17 +235,17 @@ def quick_sort_helper(array, low, high):
         '''PARTITION FUNCTION START'''
         i = (low-1) #smaller element index
         pivot = array[high] #pivot value
-        yield 3, None, None, pivot, array
+        yield 3, None, None, high, array
         for j in range(low,high):
             if array[j] < pivot:
                 i += 1
-                yield 3, i, j, pivot, array
+                yield 3, i, j, high, array
                 array[i], array[j] = array[j], array[i]
-                yield 3, i, j, pivot, array
+                yield 3, i, j, high, array
 
-        yield 3, i+1, high, pivot, array
+        yield 3, i+1, high, None, array
         array[i+1], array[high] = array[high], array[i+1]
-        yield 4, i+1, high, pivot, array
+        yield 4, i+1, high, None, array
 
         pivot_index = i+1
         yield 3, None, None, pivot_index, array

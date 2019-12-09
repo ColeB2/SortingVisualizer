@@ -125,7 +125,7 @@ class SortVisualizer:
                 elif info[0] == 4: #3 lines, 3rd line stay colored 'green'
                     self.selected_line_colors(line1=info[1], line2=info[2],
                      line3=info[3], line_color='red')
-                     '''Used for quick sort'''
+                    '''Used for quick sort'''
                 elif info[0] == 5: #3 lines, 3rd line stay colored 'green'
                     self.selected_line_colors(line1=info[1], line2=info[2],
                     line4=info[3], line_color='green')
