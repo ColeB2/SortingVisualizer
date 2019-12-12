@@ -10,12 +10,12 @@ Using Tkinter 8.6
 
 # Acknoledgements
 
-[Orangefish] (https://github.com/Orangefish/algo/blob/master/sorting_and_search/sort_merge.py) for his implementation of merge sort
+[Orangefish](https://github.com/Orangefish/algo/blob/master/sorting_and_search/sort_merge.py) for their implementation of merge sort
 
-[geeksforgeeks] (geeksforgeeks.org) for information on algorithms
+[geeksforgeeks] (geeksforgeeks.org) for their information on algorithms
 
 # License
-[MIT] (https://choosealicense.com/licenses/mit/)
+[MIT](https://choosealicense.com/licenses/mit/)
 
 # Application
 
