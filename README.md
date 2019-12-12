@@ -12,7 +12,7 @@ Using Tkinter 8.6
 
 [Orangefish](https://github.com/Orangefish/algo/blob/master/sorting_and_search/sort_merge.py) for their implementation of merge sort
 
-[geeksforgeeks] (geeksforgeeks.org) for their information on algorithms
+[geeksforgeeks](https://www.geeksforgeeks.org/) for their information on algorithms
 
 # License
 [MIT](https://choosealicense.com/licenses/mit/)
