@@ -57,3 +57,8 @@ if __name__ == '__main__':
     TEST(force_fail)
     TEST(algorithms.bubble_sort)
     TEST(algorithms.heap_sort)
+    TEST(algorithms.selection_sort)
+    TEST(algorithms.insertion_sort)
+    TEST(algorithms.shell_sort)
+    TEST(algorithms.merge_sort)
+    TEST(algorithms.quick_sort)

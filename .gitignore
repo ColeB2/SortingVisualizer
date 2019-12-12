@@ -131,6 +131,7 @@ dmypy.json
 
 # Python Folders
 /prototype
+/visualizermatplot
 
 # Python Files
 myalgos.py
