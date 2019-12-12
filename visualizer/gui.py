@@ -12,7 +12,7 @@ from tkinter import ttk
 class SortVisualizer:
     def __init__(self, master):
         self.master = master
-        self.master.title("Sort Algorithm Visualization")
+        self.master.title("Sorting Algorithm Visualizer")
         self.master.geometry(WINDOW_SIZE)
         self.master.wm_resizable(width=False, height=False)
 
