@@ -5,7 +5,7 @@ SortingVisualizer is a Tkinter app made for visualizing various sorting algorith
 
 # Technologies
 
-Written in Python 3.6
+Written in Python 3.6  
 Using Tkinter 8.6
 
 # Acknoledgements
