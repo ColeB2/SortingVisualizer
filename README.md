@@ -2,6 +2,9 @@
 
 SortingVisualizer is a Tkinter app made for visualizing various sorting algorithms.
 
+-!!!- Code base needs refactoring, main loop wrongly made, 
+    calls draw too often --> leads to flicker effect as it redraws all the lines, while still trying to draw them from before.
+
 
 # Technologies
 
