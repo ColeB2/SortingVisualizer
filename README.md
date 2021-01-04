@@ -17,7 +17,7 @@ SortingVisualizer is a Tkinter app made for visualizing various sorting algorith
 Written in Python 3.6  
 Using Tkinter 8.6
 
-# Acknoledgements
+# Acknowledgements
 
 [Orangefish](https://github.com/Orangefish/algo/blob/master/sorting_and_search/sort_merge.py) for their implementation of merge sort
 
